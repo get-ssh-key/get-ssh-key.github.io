@@ -1,12 +1,13 @@
 #!/usr/bin/env sh
-#<meta http-equiv="refresh" content="0;url=https://www.qs5.org/Post/734.html?_source=get-ssh-key.github.io"> 
+#<meta http-equiv="refresh" content="0;url=https://www.qs5.org/Post/734.html?_source=get-ssh-key.github.io">
 # https://www.qs5.org/Post/734.html (ImDong <www@qs5.org>)
 
 _echo() {
-    if [ "${0}" == "sh" ]; then
-        echo $@
-    else
+    local test=$(echo "\n")
+    if [ "${test}" == "\n" ]; then
         echo -e $@
+    else
+        echo $@
     fi
 }
 
@@ -36,4 +37,3 @@ fi
 echo "${keys}" >> ~/.ssh/authorized_keys
 
 _echo "\ndone ^-^."
-
