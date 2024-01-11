@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+#<meta http-equiv="refresh" content="0;url=main.html"> 
+# https://www.qs5.org/Post/734.html (ImDong <www@qs5.org>)
+
+_echo() {
+    if [ "${0}" == "sh" ]; then
+        echo $@
+    else
+        echo -e $@
+    fi
+}
+
+user="$1"
+if [ -z "${user}" ]; then
+    read -p "Please enter a username for github.com/" user
+fi
+
+if [ -z "${user}" ]; then
+    _echo "Add https://github.com/\${USER_ID}.keys to ~/.ssh/authorized_keys\n"
+    _echo "Please add SSH Key to https://github.com/settings/keys\n"
+    _echo "Usage: \n1. bash -c \"\$(curl -s keys.qs5.org)\"\n2. curl -s keys.qs5.org | sh -s github_username"
+    exit 1
+fi
+
+_echo "your github username is ${user}\n"
+
+keys=$(curl -s "https://github.com/${user}.keys" | sed "s/$/ github.com\/${user}/")
+_echo "The following will be added to ~/.ssh/authorized_keys\n"
+_echo "${keys}\n"
+read -n 1 -s -r -p "Press any key to confirm, press Ctrl+C to terminate."
+
+if [ ! -d "~/.ssh" ]; then
+    mkdir -p ~/.ssh
+fi
+
+echo "${keys}" >> ~/.ssh/authorized_keys
+
+_echo "\ndone ^-^."
+
